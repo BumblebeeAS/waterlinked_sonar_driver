@@ -1,0 +1,27 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ros-tooling/setup-ros@v0.7
+        with:
+          required-ros-distributions: humble
+      - uses: ros-tooling/action-ros-ci@v0.3
+        with:
+          package-name: waterlinked_sonar_driver
+          target-ros2-distro: humble
+          vcs-repo-file-url: "${{ github.workspace }}/dependencies.repos"
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+      - uses: pre-commit/action@v3.0.1
