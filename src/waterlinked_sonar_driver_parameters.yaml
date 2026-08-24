@@ -1,0 +1,145 @@
+waterlinked_sonar_driver:
+  ip_address:
+    type: string
+    default_value: "192.168.194.96"
+    description: "IP address of the Sonar 3D-15."
+    read_only: true
+  http_port:
+    type: int
+    default_value: 80
+    description: "HTTP API port."
+    read_only: true
+    validation:
+      bounds<>: [1, 65535]
+  http_timeout:
+    type: double
+    default_value: 5.0
+    description: "Timeout for each HTTP request (s)."
+    read_only: true
+    validation:
+      gt<>: [0.0]
+  frame_id:
+    type: string
+    default_value: "sonar_link"
+    description: "Frame ID for point cloud, images, and camera info."
+    read_only: true
+  imu_frame_id:
+    type: string
+    default_value: "sonar_imu_link"
+    description: "Frame ID for IMU messages. The IMU sits at (-22, -46, -3) mm
+      from the point-cloud origin; model that offset in the URDF."
+    read_only: true
+  acoustics_enabled:
+    type: bool
+    default_value: true
+    description: "Enable acoustic imaging while the node is active. Acoustics
+      is disabled again on deactivation."
+    read_only: true
+  speed_of_sound:
+    type: double
+    default_value: 0.0
+    description: "Speed of sound in water (m/s). 0 lets the sonar compute it
+      from salinity and its temperature sensor."
+    read_only: true
+    validation:
+      gt_eq<>: [0.0]
+  salinity:
+    type: string
+    default_value: "salt"
+    description: "Water salinity, used for automatic speed of sound."
+    read_only: true
+    validation:
+      one_of<>: [["salt", "fresh"]]
+  mode:
+    type: string
+    default_value: "low-frequency"
+    description: "Imaging mode. Low-frequency: 90x40 deg FOV at 5 Hz.
+      High-frequency: 40x40 deg FOV at 20 Hz."
+    read_only: true
+    validation:
+      one_of<>: [["low-frequency", "high-frequency"]]
+  range_min:
+    type: double
+    default_value: 0.3
+    description: "Minimum imaging range (m)."
+    read_only: true
+    validation:
+      gt_eq<>: [0.0]
+  range_max:
+    type: double
+    default_value: 15.0
+    description: "Maximum imaging range (m). Must exceed range_min."
+    read_only: true
+    validation:
+      gt<>: [0.0]
+  udp:
+    mode:
+      type: string
+      default_value: "multicast"
+      description: "How the sonar streams data."
+      read_only: true
+      validation:
+        one_of<>: [["multicast", "unicast"]]
+    interface_ip:
+      type: string
+      default_value: "0.0.0.0"
+      description: "Local interface IP for the multicast join or unicast bind.
+        Set to the IP on the sonar's subnet on multi-homed machines."
+      read_only: true
+    port:
+      type: int
+      default_value: 4747
+      description: "UDP port to listen on. For unicast this is also configured
+        on the sonar as the destination port."
+      read_only: true
+      validation:
+        bounds<>: [1, 65535]
+    unicast_destination_ip:
+      type: string
+      default_value: ""
+      description: "This host's IP, configured on the sonar as the unicast
+        destination. Required when udp.mode is unicast."
+      read_only: true
+    filter_source_ip:
+      type: bool
+      default_value: true
+      description: "Drop datagrams whose source is not ip_address. The
+        multicast group is shared between sonars on the same network."
+      read_only: true
+  time_source:
+    type: string
+    default_value: "receive"
+    description: "Message stamps: 'receive' uses the node clock at datagram
+      receipt; 'device' uses the sonar's timestamps (requires NTP sync)."
+    read_only: true
+    validation:
+      one_of<>: [["receive", "device"]]
+  ntp_address:
+    type: string
+    default_value: ""
+    description: "If set, configured on the sonar as its NTP server during
+      configuration, followed by a forced sync."
+    read_only: true
+  imu_enabled:
+    type: bool
+    default_value: false
+    description: "Enable the sonar's IMU batch output and the ~/imu publisher."
+    read_only: true
+  organized_cloud:
+    type: bool
+    default_value: false
+    description: "Publish the point cloud as height x width with NaN for
+      invalid pixels instead of valid points only."
+    read_only: true
+  publish_camera_info:
+    type: bool
+    default_value: true
+    description: "Publish a pinhole-equivalent CameraInfo for each image."
+    read_only: true
+  diagnostics_period:
+    type: double
+    default_value: 5.0
+    description: "Period of the HTTP status/temperature poll (s)."
+    read_only: true
+    validation:
+      gt<>: [0.0]

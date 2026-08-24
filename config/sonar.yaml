@@ -1,0 +1,23 @@
+/**:
+  ros__parameters:
+    ip_address: "192.168.195.96"
+    frame_id: "auv5/sonar"
+    imu_frame_id: "auv5/sonar_imu"
+    acoustics_enabled: false
+    speed_of_sound: 0.0
+    salinity: "fresh"
+    mode: "low-frequency"
+    range_min: 0.3
+    range_max: 15.0
+    udp:
+      mode: "unicast"
+      interface_ip: "192.168.195.51"
+      port: 4747
+      unicast_destination_ip: "192.168.195.51"
+      filter_source_ip: true
+    time_source: "device"
+    ntp_address: ""
+    imu_enabled: false
+    organized_cloud: false
+    publish_camera_info: true
+    diagnostics_period: 5.0
