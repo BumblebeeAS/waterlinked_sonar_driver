@@ -1,0 +1,3 @@
+[lint.isort]
+# launch/ holds launch files, not a first-party package.
+known-third-party = ["launch"]
