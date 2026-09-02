@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - ros_distro: humble
+            ubuntu: jammy
+          - ros_distro: jazzy
+            ubuntu: noble
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    container:
+      image: rostooling/setup-ros-docker:ubuntu-${{ matrix.ubuntu }}-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ros-tooling/action-ros-ci@v0.4
+        with:
+          package-name: waterlinked_sonar_driver
+          target-ros2-distro: ${{ matrix.ros_distro }}
+          vcs-repo-file-url: ${{ github.workspace }}/dependencies.repos
+
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+      - uses: pre-commit/action@v3.0.1

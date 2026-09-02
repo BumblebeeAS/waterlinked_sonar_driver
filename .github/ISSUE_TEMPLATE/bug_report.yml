@@ -1,0 +1,41 @@
+name: Bug report
+description: Report a defect in the driver
+labels: [bug]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Driver version
+      placeholder: v0.1.0, or a commit hash
+    validations:
+      required: true
+  - type: input
+    id: ros
+    attributes:
+      label: ROS 2 distribution and platform
+      placeholder: Jazzy on Ubuntu 24.04
+    validations:
+      required: true
+  - type: input
+    id: firmware
+    attributes:
+      label: Sonar firmware version
+      placeholder: "1.8.0"
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: What you did, what you expected, and what happened instead.
+    validations:
+      required: true
+  - type: textarea
+    id: config
+    attributes:
+      label: Parameters
+      description: The parameter file or overrides in use.
+      render: yaml
+  - type: textarea
+    id: logs
+    attributes:
+      label: Node output
+      render: shell
