@@ -1,0 +1,22 @@
+/**:
+  ros__parameters:
+    ip_address: "192.168.194.96"
+    frame_id: "sonar_link"
+    imu_frame_id: "sonar_imu_link"
+    acoustics_enabled: true
+    speed_of_sound: 0.0
+    salinity: "salt"
+    mode: "low-frequency"
+    range_min: 0.3
+    range_max: 15.0
+    udp:
+      mode: "multicast"
+      interface_ip: "0.0.0.0"
+      port: 4747
+      unicast_destination_ip: ""
+      filter_source_ip: true
+    time_source: "receive"
+    ntp_address: ""
+    imu_enabled: false
+    organized_cloud: false
+    diagnostics_period: 5.0

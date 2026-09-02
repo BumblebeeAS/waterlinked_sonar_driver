@@ -1,0 +1,6 @@
+# Imaging range in meters; requires 0 <= min < max.
+float64 min
+float64 max
+---
+bool success
+string message

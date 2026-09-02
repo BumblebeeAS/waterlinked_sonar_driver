@@ -1,0 +1,129 @@
+waterlinked_sonar_driver:
+  ip_address:
+    type: string
+    default_value: "192.168.194.96"
+    description: "Sonar IP address."
+    read_only: true
+  http_port:
+    type: int
+    default_value: 80
+    description: "Sonar HTTP API port."
+    read_only: true
+    validation:
+      bounds<>: [1, 65535]
+  http_timeout:
+    type: double
+    default_value: 5.0
+    description: "HTTP request timeout in seconds."
+    read_only: true
+    validation:
+      gt<>: [0.0]
+  frame_id:
+    type: string
+    default_value: "sonar_link"
+    description: "Frame of the point cloud, images and camera info."
+    read_only: true
+  imu_frame_id:
+    type: string
+    default_value: "sonar_imu_link"
+    description: "Frame of the IMU messages."
+    read_only: true
+  acoustics_enabled:
+    type: bool
+    default_value: true
+    description: "Enable acoustic imaging on activation."
+    read_only: true
+  speed_of_sound:
+    type: double
+    default_value: 0.0
+    description: "Speed of sound in m/s; 0 lets the sonar derive it from salinity and temperature."
+    read_only: true
+    validation:
+      gt_eq<>: [0.0]
+  salinity:
+    type: string
+    default_value: "salt"
+    description: "Water salinity."
+    read_only: true
+    validation:
+      one_of<>: [["salt", "fresh"]]
+  mode:
+    type: string
+    default_value: "low-frequency"
+    description: "Imaging mode."
+    read_only: true
+    validation:
+      one_of<>: [["low-frequency", "high-frequency"]]
+  range_min:
+    type: double
+    default_value: 0.3
+    description: "Minimum imaging range in meters."
+    read_only: true
+    validation:
+      gt_eq<>: [0.0]
+  range_max:
+    type: double
+    default_value: 15.0
+    description: "Maximum imaging range in meters; must exceed range_min."
+    read_only: true
+    validation:
+      gt<>: [0.0]
+  udp:
+    mode:
+      type: string
+      default_value: "multicast"
+      description: "How the sonar streams data."
+      read_only: true
+      validation:
+        one_of<>: [["multicast", "unicast"]]
+    interface_ip:
+      type: string
+      default_value: "0.0.0.0"
+      description: "Local interface address for the multicast join or unicast bind."
+      read_only: true
+    port:
+      type: int
+      default_value: 4747
+      description: "UDP port to receive on; the sonar's destination port in unicast mode."
+      read_only: true
+      validation:
+        bounds<>: [1, 65535]
+    unicast_destination_ip:
+      type: string
+      default_value: ""
+      description: "Address of this host, sent to the sonar as its unicast destination; required in unicast mode."
+      read_only: true
+    filter_source_ip:
+      type: bool
+      default_value: true
+      description: "Drop datagrams not sent from ip_address."
+      read_only: true
+  time_source:
+    type: string
+    default_value: "receive"
+    description: "Stamp messages with their receipt time or the sonar clock."
+    read_only: true
+    validation:
+      one_of<>: [["receive", "device"]]
+  ntp_address:
+    type: string
+    default_value: ""
+    description: "NTP server to configure on the sonar, or auto; empty leaves it unchanged."
+    read_only: true
+  imu_enabled:
+    type: bool
+    default_value: false
+    description: "Enable the sonar IMU output and the ~/imu topic."
+    read_only: true
+  organized_cloud:
+    type: bool
+    default_value: false
+    description: "Publish the point cloud as height x width with NaN for empty pixels."
+    read_only: true
+  diagnostics_period:
+    type: double
+    default_value: 5.0
+    description: "Period of the sonar status poll in seconds."
+    read_only: true
+    validation:
+      gt<>: [0.0]
